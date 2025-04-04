@@ -1,2 +1,5 @@
-# PyPilot
-A module to automatically check and install missing imports
+Automatically detects imported modules in a script
+
+Installs missing packages using pip
+
+Handles module-package name differences (e.g., win32com.client → pywin32)
