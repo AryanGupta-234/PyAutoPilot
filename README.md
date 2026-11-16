@@ -1,34 +1,43 @@
 # PyAutoPilot
 
-A Python utility that scans Python scripts for imports, checks whether corresponding packages are available, and can install missing dependencies.
+A small Python module that scans the script importing it and installs any missing packages with pip.
 
-## Features
+## What it does
 
-- Import scanning
-- Missing-dependency detection
-- Module-to-package mapping for known naming differences
-- Optional installation through pip
+- Reads the running script (`sys.argv[0]`) and parses it with `ast` to find every `import` and `from ... import`.
+- Compares those module names with the modules installed in the current environment.
+- Runs `pip install` for each missing one, using the same Python interpreter.
+- Maps known name differences, currently `win32com.client` to the `pywin32` package.
+- Prints a dump of the parsed syntax tree while it runs (useful for debugging, noisy otherwise).
 
-## Installation
+## Built with
+
+- Python 3 standard library: `ast`, `pkgutil`, `subprocess`
+
+## Run it
+
+Install from PyPI:
 
     pip install PyAutoPilot
 
-For a local source checkout, use the packaging configuration in this repository.
-
-## Usage
+Or copy `PyAutoPilot.py` next to your script. Then import it at the top of your script, before your other imports:
 
     import PyAutoPilot
 
-Refer to the package source and examples in this repository for supported invocation and configuration behavior.
+The check runs as soon as the module is imported.
 
 ## Security note
 
-Installing packages executes third-party installation code. Review dependency names and package sources before enabling automatic installation. Use a virtual environment rather than a system-wide Python environment.
+Installing packages executes third-party installation code. The module installs whatever names your imports use, and a module name does not always match the package that provides it. Review dependency names before relying on it, and use a virtual environment rather than a system-wide Python.
 
-## Build
+## Project status
 
-    python -m build
+Early learning project (version 0.1.0 on PyPI).
 
 ## License
 
-See the repository's LICENSE file for applicable terms.
+MIT. See [LICENSE](LICENSE).
+
+---
+
+Part of [Aryan Gupta's projects](https://github.com/AryanGupta-234). Building [NOBAD](https://nobad-platform.aassworld99.workers.dev/): software with a point of view.
